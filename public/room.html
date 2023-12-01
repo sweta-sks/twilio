@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Compositions</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.socket.io/4.1.1/socket.io.min.js" integrity="sha384-cdrFIqe3RasCMNE0jeFG9xJHog/tgOVC1E9Lzve8LQN1g5WUHo0Kvk1mawWjxX7a" crossorigin="anonymous"></script>
+</head>
+<body class="app">
+  <h1>Video Compositions</h1>
+  <div id="statusUpdate"></div>
+
+  <h2>Rooms with Compositions</h2>
+  <table>
+    <tr>
+      <th>Room Name</th>
+      <th>Duration</th>
+      <th>Actions</th>
+    </tr>
+    <!-- Loop through rooms -->
+    <% if (rooms) { %>
+      <% rooms.forEach(function(room) { %>
+        <% if (room.compositions && room.compositions.length) { %>
+          <tr>
+            <td><%= room.name %></td>
+            <td><%= new Date(room.duration * 1000).toISOString().substr(11, 8) %></td>
+            <td>
+              <!-- Loop through compositions -->
+              <% room.compositions.forEach(function(composition) { %>
+                <li>
+                  <button class="button compositionAction" value="/compositions/<%= composition.sid %>/view">View</button>
+                  <button class="button compositionAction" value="/compositions/<%= composition.sid %>/download">Download</button>
+                  <button class="button compositionAction" value="/compositions/<%= composition.sid %>/delete">Delete</button>
+                </li>
+              <% }); %>
+            </td>
+          </tr>
+        <% } %>
+      <% }); %>
+    <% } %>
+  </table>
+
+  <h2>Recent Rooms with Recordings</h2>
+  <table>
+    <tr>
+      <th>Room Name</th>
+      <th>Duration</th>
+      <th>Actions</th>
+    </tr>
+    <!-- Loop through rooms -->
+    <% if (rooms.length) { %>
+      <% rooms.forEach(function(room) { %>
+        <tr>
+          <td><%= room.name %></td>
+          <td><%= new Date(room.duration * 1000).toISOString().substr(11, 8) %></td>
+          <td>
+            <button class="button compositionAction" value="/compose/<%= room.sid %>">Compose</button>
+          </td>
+        </tr>
+      <% }); %>
+    <% } %>
+  </table>
+</body>
+</html>
