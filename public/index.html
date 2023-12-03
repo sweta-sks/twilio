@@ -1,19 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Twilio Video Demo</title>
     <!-- Twilio Video CDN -->
     <script src="https://sdk.twilio.com/js/video/releases/2.15.2/twilio-video.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 20px;
+        background-color: #f0f0f0;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      input {
+        padding: 8px;
+        margin-right: 10px;
+      }
+
+      button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #button-record-room {
+        background-color: #28a745;
+      }
+
+      #button-record-room:hover {
+        background-color: #218838;
+      }
+
+      #video-container {
+        border: 1px solid #ddd;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+      }
+    </style>
   </head>
+
   <body>
     <form id="room-name-form">
       Enter a Room Name to join: <input name="room_name" id="room-name-input" />
       <button type="submit">Join Room</button>
     </form>
-    <div>
-      <button id="button-record-room">start record</button>
-    </div>
+
     <div id="video-container"></div>
     <script src="main.js"></script>
   </body>

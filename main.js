@@ -35,7 +35,7 @@ const findOrCreateRoom = async (roomName) => {
       const roomCreated = await twilioClient.video.v1.rooms.create({
         uniqueName: roomName,
         type: "group",
-        //recordParticipantsOnConnect: true,
+        recordParticipantsOnConnect: true,
       });
 
       console.log(`Created room ${roomCreated.sid}`);
@@ -173,20 +173,15 @@ app.post("/join-room", async (req, res) => {
 });
 
 app.get("/list", async (req, res) => {
-  const rooms = await twilioClient.video.v1.rooms.list({ limit: 20 });
+  const rooms = await twilioClient.video.v1.rooms.list({
+    status: "completed",
+    limit: 20,
+  });
   res.json(rooms);
 });
 app.post("/callbacks", (req, res) => {
   const status = req.body.StatusCallbackEvent;
   res.send(status);
-});
-
-app.get("/sms", async (req, res) => {
-  const res = await twilioClient.messages.create({
-    body: "Hello from Node",
-    from: "+12056276957",
-    to: "+919971859600",
-  });
 });
 
 app.get("/record", async (req, res) => {
@@ -226,21 +221,7 @@ app.get("/list/:sid", async (req, res) => {
   console.log(room);
   res.send(room);
 });
-app.post("/start-recording", async (req, res) => {
-  // return 400 if the request has an empty body or no roomName
-  if (!req.body || !req.body.roomName) {
-    return res.status(400).send("Must include roomName argument.");
-  }
-  const roomSid = req.body.roomName;
-  // find or create a room with the given roomName
-  console.log(roomSid);
-  await startRecording(roomSid);
-  // generate an Access Token for a participant in this room
 
-  res.send({
-    message: `Started recording room ${roomSid}`,
-  });
-});
 app.get("/roomComposition", async (req, res, next) => {
   try {
     let rooms = await getRoomsAndCompositions();
